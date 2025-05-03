@@ -1,6 +1,6 @@
-import { LoginForm } from "@cms/components/login-form";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@cms/components/ui/card";
-import Link from "next/link";
+import { LoginForm } from "@cms/components/login-form"
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@cms/components/ui/card"
+import Link from "next/link"
 
 export default function LoginPage() {
     return (

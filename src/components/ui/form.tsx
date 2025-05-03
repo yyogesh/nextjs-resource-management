@@ -39,16 +39,16 @@ const Form = React.forwardRef<HTMLFormElement, React.FormHTMLAttributes<HTMLForm
 Form.displayName = "Form"
 
 interface FormFieldProps {
-  name: string
-  children: React.ReactNode
-  render: (props: { field: { name: string; id: string } }) => React.ReactNode
-  control?: any
+  name: string;
+  children?: React.ReactNode;
+  render: (props: { field: any }) => React.ReactNode;
+  control: any;
 }
 
-const FormField = ({ name, render, children }: FormFieldProps) => {
+const FormField = ({ name, render, control, children }: FormFieldProps) => {
   return (
     <FormFieldContext.Provider value={{ name }}>
-      {render ? render({ field: { name, id: name } }) : children}
+      {render ? render({ field: { name, id: name, onChange: () => {}, value: '', onBlur: () => {} } }) : children}
     </FormFieldContext.Provider>
   )
 }
