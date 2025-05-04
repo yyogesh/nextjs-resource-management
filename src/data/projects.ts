@@ -1,0 +1,48 @@
+import { Project } from "@cms/libs/types";
+
+export const projects: Project[] = [
+  {
+    id: "project-1",
+    name: "Website Localization",
+    description: "Main company website localization project",
+    languages: ["en", "fr", "es", "de", "ja"],
+    defaultLanguage: "en",
+    stringCount: 342,
+    imageCount: 56,
+    createdAt: "2023-01-15T10:30:00Z",
+    updatedAt: "2023-04-20T14:45:00Z",
+  },
+  {
+    id: "project-2",
+    name: "Mobile App",
+    description: "iOS and Android mobile application",
+    languages: ["en", "fr", "es", "zh"],
+    defaultLanguage: "en",
+    stringCount: 567,
+    imageCount: 89,
+    createdAt: "2023-02-10T09:15:00Z",
+    updatedAt: "2023-04-18T11:20:00Z",
+  },
+  {
+    id: "project-3",
+    name: "E-commerce Platform",
+    description: "Online store and checkout system",
+    languages: ["en", "fr", "de", "it", "es"],
+    defaultLanguage: "en",
+    stringCount: 890,
+    imageCount: 120,
+    createdAt: "2023-03-05T13:45:00Z",
+    updatedAt: "2023-04-15T16:30:00Z",
+  },
+  {
+    id: "project-4",
+    name: "Marketing Campaign",
+    description: "Q2 2023 marketing materials",
+    languages: ["en", "fr", "de"],
+    defaultLanguage: "en",
+    stringCount: 156,
+    imageCount: 78,
+    createdAt: "2023-03-20T11:00:00Z",
+    updatedAt: "2023-04-10T09:45:00Z",
+  },
+]

@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useId } from "react"
 import { cn } from "@cms/libs/utils"
+import { Controller } from "react-hook-form"
 
 interface FormFieldContextValue {
   name: string
@@ -31,11 +32,10 @@ interface FormItemContextValue {
 
 const FormItemContext = createContext<FormItemContextValue | undefined>(undefined)
 
-const Form = React.forwardRef<HTMLFormElement, React.FormHTMLAttributes<HTMLFormElement>>(
-  ({ className, ...props }, ref) => {
-    return <form ref={ref} className={cn("space-y-6", className)} {...props} />
-  },
-)
+// Changed to not render a form element
+const Form = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(({ className, ...props }, ref) => {
+  return <div ref={ref} className={cn("space-y-6", className)} {...props} />
+})
 Form.displayName = "Form"
 
 interface FormFieldProps {
@@ -48,7 +48,16 @@ interface FormFieldProps {
 const FormField = ({ name, render, control, children }: FormFieldProps) => {
   return (
     <FormFieldContext.Provider value={{ name }}>
-      {render ? render({ field: { name, id: name, onChange: () => {}, value: '', onBlur: () => {} } }) : children}
+      <Controller
+        control={control}
+        name={name}
+        render={({ field }) => {
+          // Ensure we're returning a valid React element
+          const renderedContent = render({ field });
+          // Check if the rendered content is valid
+          return renderedContent as React.ReactElement;
+        }}
+      />
     </FormFieldContext.Provider>
   )
 }
@@ -85,11 +94,23 @@ const FormLabel = React.forwardRef<HTMLLabelElement, React.LabelHTMLAttributes<H
 )
 FormLabel.displayName = "FormLabel"
 
-const FormControl = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(({ ...props }, ref) => {
-  const { id } = useContext(FormItemContext) || { id: undefined }
+const FormControl = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({ children, ...props }, ref) => {
+    const { id } = useContext(FormItemContext) || { id: undefined }
 
-  return <div ref={ref} id={id} {...props} />
-})
+    // If children is a React element, clone it to pass the id
+    if (React.isValidElement(children)) {
+      return React.cloneElement(children, {
+        ...(children.props as object),
+        ...props,
+        id,
+      } as React.HTMLAttributes<HTMLElement>)
+    }
+
+    // Otherwise render a div with the props
+    return <div ref={ref} id={id} {...props}>{children}</div>
+  },
+)
 FormControl.displayName = "FormControl"
 
 const FormDescription = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLParagraphElement>>(
